@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { HTTP_STATUS } from '../../constants/constants';
-import styles from './PostsPage.module.css'
+import styles from './PostsPage.module.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
 
 const LIMIT = 10;
 
@@ -39,8 +40,8 @@ export class PostsPage extends React.Component {
                 data: null,
                 status: HTTP_STATUS.PENDING,
             });
-
-            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}`)
+            //https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}
+            fetch(`http://hdowh2v28e7eb2b`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error('Ошибка загрузки');
@@ -66,6 +67,14 @@ export class PostsPage extends React.Component {
         this.setState({ currentPage: this.state.currentPage - 1 })
     }
 
+    handlerClickCloseButton = () => {
+        
+        this.setState({
+            error: null,
+            status: HTTP_STATUS.IDLE,
+        })
+    }
+
     render() {
 
         return (
@@ -81,6 +90,10 @@ export class PostsPage extends React.Component {
                             Загрузка...
                         </label>
                         <div className={styles.loader}></div>
+                    </div>}
+
+                    {this.state.status === HTTP_STATUS.REJECTED && <div>
+                        <ErrorModalWindow error={this.state.error} onClick={this.handlerClickCloseButton}></ErrorModalWindow>
                     </div>}
                 </div>
                 <div className={styles.buttonsContainer}>
