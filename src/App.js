@@ -54,7 +54,10 @@ function App() {
                                                       prevClick={handlePrevButtonClick}
                                                       errorClose={ handlerClickErrorCloseButton}
                                                       limit = {10} />} />
-            <Route path='/users' element={<UsersPage />} />
+            <Route path='/users' element={<UsersPage nextClick={handleNextButtonClick}
+                                                      prevClick={handlePrevButtonClick}
+                                                      errorClose={ handlerClickErrorCloseButton}
+                                                      limit = {5}/>} />
             <Route path='/pics' element={<UploadPic />} />
           </Routes>
         </main>

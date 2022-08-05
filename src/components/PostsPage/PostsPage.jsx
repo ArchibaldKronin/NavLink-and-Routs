@@ -32,7 +32,7 @@ export class PostsPage extends React.Component {
                 if (!response.ok) {
                     throw new Error('Ошибка загрузки');
                 }
-                return response.json()
+                return response.json();
             })
             .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
             .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
@@ -45,7 +45,7 @@ export class PostsPage extends React.Component {
                 status: HTTP_STATUS.PENDING,
             });
             //https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}
-            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
+            fetch(`https://jfsv54`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error('Ошибка загрузки');
@@ -78,9 +78,10 @@ export class PostsPage extends React.Component {
                         <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
                     </div>}
                 </div>
+
                 <div className={styles.buttonsContainer}>
-                    <button onClick={() => this.handlePrevButtonClick(10)} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
-                    <button onClick={this.handleNextButtonClick} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
+                    <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
+                    <button onClick={() => this.handleNextButtonClick(10)} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
                 </div>
             </>
         )
