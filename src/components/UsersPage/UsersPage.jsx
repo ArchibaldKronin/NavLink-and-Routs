@@ -1,27 +1,38 @@
 import React, { Component } from 'react';
+import { HTTP_STATUS } from '../../constants/constants';
+import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
+
+const LIMIT = 5;
 
 export class UsersPage extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            file: null,
+            data: null,
+            error: null,
+            status: HTTP_STATUS.IDLE,
+            currentPage: 0,
         }
     }
 
-    handleUploadImage = (e) => {
-        this.setState({
-            file: URL.createObjectURL(e.target.files[0]),
-        })
+    componentDidMount() {
+
+    }
+
+    componentDidUpdate() {
+
+    }
+
+    handleNextButtonClick() {
+        
     }
 
     render() {
 
         return (
             <>
-                <div>UsersPage</div>
-                <input type="file" onChange={this.handleUploadImage}/>
-                <img src={this.state.file} alt="Картинка" />
+
             </>
         )
     }

@@ -6,8 +6,9 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     background-color: rgba(100, 237, 121, 0.378);
+    padding: 100px;
 }
 
 .ErrorModalWindow {
@@ -21,4 +22,6 @@
     flex-direction: column;
     gap: 15px;
     padding: 20px 0;
+    box-shadow: 0 5px 10px 0px;
+    border-radius: 10px;
 }

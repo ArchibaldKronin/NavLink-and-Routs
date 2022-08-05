@@ -4,8 +4,6 @@ import styles from './PostsPage.module.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
 
-const LIMIT = 10;
-
 export class PostsPage extends React.Component {
     constructor(props) {
         super(props)
@@ -14,8 +12,14 @@ export class PostsPage extends React.Component {
             data: null,
             error: null,
             status: HTTP_STATUS.IDLE,
-            currentPage: 0,
+            currentPage: 1,
         }
+
+        this.limit = this.props.limit;
+
+        this.handleNextButtonClick = this.props.nextClick.bind(this);
+        this.handlePrevButtonClick = this.props.prevClick.bind(this);
+        this.handlerClickErrorCloseButton = this.props.errorClose.bind(this);
     }
 
     componentDidMount() {
@@ -23,7 +27,7 @@ export class PostsPage extends React.Component {
             status: HTTP_STATUS.PENDING,
         });
 
-        fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}`)
+        fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Ошибка загрузки');
@@ -41,7 +45,7 @@ export class PostsPage extends React.Component {
                 status: HTTP_STATUS.PENDING,
             });
             //https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}
-            fetch(`http://hdowh2v28e7eb2b`)
+            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error('Ошибка загрузки');
@@ -51,28 +55,6 @@ export class PostsPage extends React.Component {
                 .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
                 .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
         }
-    }
-
-    handleNextButtonClick = () => {
-        if (this.state.currentPage === 9)
-            return;
-
-        this.setState({ currentPage: this.state.currentPage + 1 })
-    }
-
-    handlePrevButtonClick = () => {
-        if (this.state.currentPage === 0)
-            return;
-
-        this.setState({ currentPage: this.state.currentPage - 1 })
-    }
-
-    handlerClickCloseButton = () => {
-        
-        this.setState({
-            error: null,
-            status: HTTP_STATUS.IDLE,
-        })
     }
 
     render() {
@@ -93,12 +75,12 @@ export class PostsPage extends React.Component {
                     </div>}
 
                     {this.state.status === HTTP_STATUS.REJECTED && <div>
-                        <ErrorModalWindow error={this.state.error} onClick={this.handlerClickCloseButton}></ErrorModalWindow>
+                        <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
                     </div>}
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <button onClick={this.handlePrevButtonClick} disabled={!this.state.currentPage || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
-                    <button onClick={this.handleNextButtonClick} disabled={this.state.currentPage === 9 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
+                    <button onClick={() => this.handlePrevButtonClick(10)} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
+                    <button onClick={this.handleNextButtonClick} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
                 </div>
             </>
         )

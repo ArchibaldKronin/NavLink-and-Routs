@@ -1,6 +1,6 @@
 .headerClass {
   background-color: cornflowerblue;
-  border-bottom: 1px solid black;
+  box-shadow: 0 5px 10px 0px;
 }
 
 .navClass {
