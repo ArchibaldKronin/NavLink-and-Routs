@@ -29,6 +29,7 @@ function App() {
       status: HTTP_STATUS.IDLE,
     })
   }
+  
 
   return (
     <BrowserRouter>
@@ -50,7 +51,7 @@ function App() {
         </header>
         <main className='mainClass'>
           <Routes>
-            <Route path='/posts' element={<PostsPage nextClick={handleNextButtonClick}
+            <Route path='/posts/*' element={<PostsPage nextClick={handleNextButtonClick}
                                                       prevClick={handlePrevButtonClick}
                                                       errorClose={ handlerClickErrorCloseButton}
                                                       limit = {10} />} />

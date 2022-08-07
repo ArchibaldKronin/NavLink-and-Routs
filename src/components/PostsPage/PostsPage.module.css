@@ -11,6 +11,41 @@
     margin: 10px;
 }
 
+.link {
+    text-decoration: none;
+    color: black;
+
+}
+
+.link:active {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    background-color: rgba(100, 237, 121, 0.378);
+}
+
+.active {
+    background-color: white;
+    color: black;
+  }
+  
+  .active:hover {
+    background-color: white;
+    color: black;
+  }
+
+.superDiv {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    font-size: 50px;
+    color: white;
+    background-color: black;
+    z-index: 2;
+}
+
 .loaderContainer {
     height: 86vh;
     display: flex;

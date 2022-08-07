@@ -3,6 +3,8 @@ import { HTTP_STATUS } from '../../constants/constants';
 import styles from './PostsPage.module.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
+import { BrowserRouter, Routes, Route, NavLink, Outlet } from 'react-router-dom';
+
 
 export class PostsPage extends React.Component {
     constructor(props) {
@@ -44,8 +46,8 @@ export class PostsPage extends React.Component {
                 data: null,
                 status: HTTP_STATUS.PENDING,
             });
-            //https://jsonplaceholder.typicode.com/posts?_limit=${LIMIT}&_page=${this.state.currentPage}
-            fetch(`https://jfsv54`)
+            //https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}
+            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error('Ошибка загрузки');
@@ -57,15 +59,42 @@ export class PostsPage extends React.Component {
         }
     }
 
+    createRoates = () => {
+        debugger
+        const routes = this.state.data.map((post) =>
+            <Route key={`${post.id}`} path={`/posts/${post.userId}`} element={
+                <div className='superDiv'>
+                    {`ГОВНИЩЕ${post.userId}`}
+                </div>
+            } />
+        );
+
+        return (
+            <Routes>
+                {routes}
+            </Routes>
+        )
+    }
+
+
+
     render() {
 
         return (
-            <>
+            <div>
                 <div className={styles.postsContainer}>
-                    {this.state.data && this.state.data.map((post) => <div key={post.id} className={styles.postItemContainer}>
-                        <h3>{post.title}</h3>
-                        <p>{post.body}</p>
-                    </div>)}
+                    {this.state.data && this.state.data.map((post) =>
+                        <div className={styles.postItemContainer} key={post.id}>
+                            <NavLink to={`/posts/${post.userId}`} className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}  >
+                                <h3>{post.title}</h3>
+                                <p>{post.body}</p>
+                            </NavLink>
+                        </div>
+                    )}
+
+                    {this.state.data && this.createRoates()}
+
+
 
                     {this.state.status === HTTP_STATUS.PENDING && <div className={styles.loaderContainer}>
                         <label>
@@ -77,13 +106,14 @@ export class PostsPage extends React.Component {
                     {this.state.status === HTTP_STATUS.REJECTED && <div>
                         <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
                     </div>}
+
                 </div>
 
                 <div className={styles.buttonsContainer}>
                     <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
                     <button onClick={() => this.handleNextButtonClick(10)} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
                 </div>
-            </>
+            </div>
         )
     }
 }
