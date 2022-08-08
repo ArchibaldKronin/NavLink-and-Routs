@@ -3,7 +3,7 @@ import { HTTP_STATUS } from '../../constants/constants';
 import styles from './PostsPage.module.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
-import { BrowserRouter, Routes, Route, NavLink, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 export class PostsPage extends React.Component {
@@ -59,25 +59,6 @@ export class PostsPage extends React.Component {
         }
     }
 
-    createRoates = () => {
-        debugger
-        const routes = this.state.data.map((post) =>
-            <Route key={`${post.id}`} path={`/posts/${post.userId}`} element={
-                <div className='superDiv'>
-                    {`ГОВНИЩЕ${post.userId}`}
-                </div>
-            } />
-        );
-
-        return (
-            <Routes>
-                {routes}
-            </Routes>
-        )
-    }
-
-
-
     render() {
 
         return (
@@ -91,10 +72,6 @@ export class PostsPage extends React.Component {
                             </NavLink>
                         </div>
                     )}
-
-                    {this.state.data && this.createRoates()}
-
-
 
                     {this.state.status === HTTP_STATUS.PENDING && <div className={styles.loaderContainer}>
                         <label>
@@ -113,7 +90,7 @@ export class PostsPage extends React.Component {
                     <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
                     <button onClick={() => this.handleNextButtonClick(10)} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
                 </div>
-            </div>
+            </div >
         )
     }
 }

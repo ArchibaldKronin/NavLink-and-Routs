@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { PostsPage } from './components/PostsPage/PostsPage'
-import { UsersPage } from './components/UsersPage/UsersPage'
-import { UploadPic } from "./components/UploadPic/UploadPic"
+import { PostsPage } from './components/PostsPage/PostsPage';
+import { UsersPage } from './components/UsersPage/UsersPage';
+import { UploadPic } from "./components/UploadPic/UploadPic";
+import { UserInfo } from "./components/UserInfo/UserInfo";
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import { HTTP_STATUS } from './constants/constants';
@@ -29,7 +30,7 @@ function App() {
       status: HTTP_STATUS.IDLE,
     })
   }
-  
+
 
   return (
     <BrowserRouter>
@@ -51,15 +52,16 @@ function App() {
         </header>
         <main className='mainClass'>
           <Routes>
-            <Route path='/posts/*' element={<PostsPage nextClick={handleNextButtonClick}
-                                                      prevClick={handlePrevButtonClick}
-                                                      errorClose={ handlerClickErrorCloseButton}
-                                                      limit = {10} />} />
+            <Route path='/posts' element={<PostsPage nextClick={handleNextButtonClick}
+              prevClick={handlePrevButtonClick}
+              errorClose={handlerClickErrorCloseButton}
+              limit={10} />} />
             <Route path='/users' element={<UsersPage nextClick={handleNextButtonClick}
-                                                      prevClick={handlePrevButtonClick}
-                                                      errorClose={ handlerClickErrorCloseButton}
-                                                      limit = {5}/>} />
+              prevClick={handlePrevButtonClick}
+              errorClose={handlerClickErrorCloseButton}
+              limit={5} />} />
             <Route path='/pics' element={<UploadPic />} />
+            <Route path='/posts/:id' element={<UserInfo />} />
           </Routes>
         </main>
       </div>
