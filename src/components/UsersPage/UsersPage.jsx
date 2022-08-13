@@ -3,6 +3,9 @@ import { HTTP_STATUS } from '../../constants/constants';
 import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
 import styles from './UsersPage.module.css'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { Container } from '../Container/Container';
+import { ItemContainer } from '../ItemContainer/ItemContainer';
+import { Loader } from '../Loader/Loader';
 
 
 export class UsersPage extends React.Component {
@@ -63,23 +66,19 @@ export class UsersPage extends React.Component {
 
         return (
             <>
-                <div className={styles.usersContainer}>
-                    {this.state.data && this.state.data.map((user) => <div key={user.id} className={styles.userItemContainer}>
-                        <h3>{user.name}</h3>
-                        <p>{user.username}</p>
-                    </div>)}
+                <Container>
+                    {this.state.data && this.state.data.map((user) =>
+                        <ItemContainer key={user.id}>
+                            <h3>{user.name}</h3>
+                            <p>{user.username}</p>
+                        </ItemContainer>)}
 
-                    {this.state.status === HTTP_STATUS.PENDING && <div className={styles.loaderContainer}>
-                        <label>
-                            Загрузка...
-                        </label>
-                        <div className={styles.loader}></div>
-                    </div>}
+                    {this.state.status === HTTP_STATUS.PENDING && <Loader />}
 
                     {this.state.status === HTTP_STATUS.REJECTED && <div>
                         <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
                     </div>}
-                </div>
+                </Container>
 
                 <div className={styles.buttonsContainer}>
                     <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>

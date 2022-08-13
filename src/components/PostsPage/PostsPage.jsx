@@ -4,6 +4,9 @@ import styles from './PostsPage.module.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
 import { NavLink } from 'react-router-dom';
+import { Container } from '../Container/Container';
+import { ItemContainer } from '../ItemContainer/ItemContainer';
+import { Loader } from '../Loader/Loader';
 
 
 export class PostsPage extends React.Component {
@@ -63,28 +66,22 @@ export class PostsPage extends React.Component {
 
         return (
             <div>
-                <div className={styles.postsContainer}>
+                <Container>
                     {this.state.data && this.state.data.map((post) =>
-                        <div className={styles.postItemContainer} key={post.id}>
+                        <ItemContainer key={post.id}>
                             <NavLink to={`/posts/${post.userId}`} className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}  >
                                 <h3>{post.title}</h3>
                                 <p>{post.body}</p>
                             </NavLink>
-                        </div>
+                        </ItemContainer>
                     )}
 
-                    {this.state.status === HTTP_STATUS.PENDING && <div className={styles.loaderContainer}>
-                        <label>
-                            Загрузка...
-                        </label>
-                        <div className={styles.loader}></div>
-                    </div>}
+                    {this.state.status === HTTP_STATUS.PENDING && <Loader />}
 
                     {this.state.status === HTTP_STATUS.REJECTED && <div>
                         <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
                     </div>}
-
-                </div>
+                </Container>
 
                 <div className={styles.buttonsContainer}>
                     <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>

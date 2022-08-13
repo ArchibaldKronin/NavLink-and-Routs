@@ -6,6 +6,8 @@ import { UserInfo } from "./components/UserInfo/UserInfo";
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import { HTTP_STATUS } from './constants/constants';
+import { TodosPage } from './components/TodosPage/TodosPage';
+import { CommentsPage } from './components/CommentsPage/CommentsPage';
 
 
 function App() {
@@ -45,6 +47,12 @@ function App() {
                 <NavLink className={(navData) => navData.isActive ? "active link" : "link"} to='/users'>Users</NavLink >
               </li>
               <li>
+                <NavLink className={(navData) => navData.isActive ? "active link" : "link"} to='/todos'>ToDoList</NavLink >
+              </li>
+              <li>
+                <NavLink className={(navData) => navData.isActive ? "active link" : "link"} to='/comments'>CommentsPage</NavLink >
+              </li>
+              <li>
                 <NavLink className={(navData) => navData.isActive ? "active link" : "link"} to='/pics'>UploadPic</NavLink >
               </li>
             </ul>
@@ -60,6 +68,8 @@ function App() {
               prevClick={handlePrevButtonClick}
               errorClose={handlerClickErrorCloseButton}
               limit={5} />} />
+            <Route path='/todos' element={<TodosPage />} />
+            <Route path='/comments' element={<CommentsPage />} />
             <Route path='/pics' element={<UploadPic />} />
             <Route path='/posts/:id' element={<UserInfo />} />
           </Routes>

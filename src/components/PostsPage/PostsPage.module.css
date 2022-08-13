@@ -1,9 +1,3 @@
-.postsContainer {
-    height: 86vh;
-    overflow: auto;
-    margin-bottom: 5px;
-}
-
 .postItemContainer {
     padding: 15px;
     border-radius: 10px;
