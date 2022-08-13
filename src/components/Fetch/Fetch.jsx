@@ -21,7 +21,6 @@ export const Fetch = ({ url, loader, children, renderError }) => {
                 setState({ ...state, data, status: HTTP_STATUS.FULFILLED });
             }
             catch (err) { setState({ ...state, error: err.message, status: HTTP_STATUS.REJECTED }) };
-
         };
 
         loadData();

@@ -2,34 +2,28 @@ import React, { useState } from 'react'
 import { Container } from '../Container/Container'
 import { Fetch } from '../Fetch/Fetch'
 import { ItemContainer } from '../ItemContainer/ItemContainer'
-import { FaArrowLeft, FaArrowRight, } from 'react-icons/fa';
-import styles from './CommentsPage.module.css'
-import { HTTP_STATUS, TODOS_TOTAL_COUNT, TODOS_LIMIT } from "../../constants/constants";
+import { COMMENTS_TOTAL_COUNT, COMMENTS_LIMIT } from "../../constants/constants";
 import { Loader } from '../Loader/Loader';
+import { NavigationButtons } from "../NavigationButtons/NavigationButtons"
 
 
 export const CommentsPage = () => {
 
+    const PAGES_AMOUNT = COMMENTS_TOTAL_COUNT / COMMENTS_LIMIT;
+
     const [currentPage, setCurrentPage] = useState(1);
 
-    const handleNextButtonClick = () => {
-        if (currentPage === TODOS_TOTAL_COUNT / TODOS_LIMIT)
-            return;
-
-        setCurrentPage(currentPage + 1);
-    }
-
-    const handlePrevButtonClick = () => {
-        if (currentPage === 1)
-            return;
-
-        setCurrentPage(currentPage - 1);
-    }
-
     return (
-        <Fetch url={`https://jsonplaceholder.typicode.com/comments?_limit=${TODOS_LIMIT}&_page=${currentPage}`}
+        <Fetch url={`https://jsonplaceholder.typicode.com/comments?_limit=${COMMENTS_LIMIT}&_page=${currentPage}`}
             loader={<Loader />}>
             {({ data: comments, status }) => {
+                const navigationProps = {
+                    currentPage,
+                    setCurrentPage,
+                    status,
+                    pagesAmount: PAGES_AMOUNT,
+                }
+
                 return <>
                     <Container>
                         {comments.map(comment =>
@@ -39,10 +33,7 @@ export const CommentsPage = () => {
                             </ItemContainer>
                         )}
                     </Container>
-                    <div className={styles.buttonsContainer}>
-                        <button onClick={handlePrevButtonClick} disabled={currentPage === 1 || status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
-                        <button onClick={handleNextButtonClick} disabled={currentPage === TODOS_TOTAL_COUNT / TODOS_LIMIT || status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
-                    </div>
+                    <NavigationButtons settings={navigationProps} />
                 </>
             }}
         </Fetch >
