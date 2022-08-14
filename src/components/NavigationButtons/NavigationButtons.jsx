@@ -29,10 +29,3 @@ export const NavigationButtons = ({ settings }) => {
         </div>
     )
 }
-
-
-
-{/* <div className={styles.buttonsContainer}>
-<button onClick={handlePrevButtonClick} disabled={currentPage === 1 || status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
-<button onClick={handleNextButtonClick} disabled={currentPage === TODOS_TOTAL_COUNT / TODOS_LIMIT || status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
-</div> */}

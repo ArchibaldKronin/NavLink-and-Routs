@@ -8,6 +8,7 @@ import styles from "./TodosPage.module.css";
 import { ImWarning, } from 'react-icons/im';
 import { Fetch } from "../Fetch/Fetch";
 import { NavigationButtons } from "../NavigationButtons/NavigationButtons";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
 
 export const TodosPage = (props) => {
 
@@ -17,7 +18,7 @@ export const TodosPage = (props) => {
 
     return (
         <Fetch url={`https://jsonplaceholder.typicode.com/todos?_limit=${TODOS_LIMIT}&_page=${currentPage}`}
-            loader={<Loader />}>
+            loader={<Loader />} renderError={({ error: errorMessage }) => (<ErrorPage />)}>
             {({ data: todos, status }) => {
                 const navigationProps = {
                     currentPage,
@@ -39,7 +40,7 @@ export const TodosPage = (props) => {
             }}
         </Fetch>
     )
-        //         {state.status === HTTP_STATUS.REJECTED &&
+    //         {state.status === HTTP_STATUS.REJECTED &&
     //             <div className={styles.errorContainer}>
     //                 <ImWarning color='red' size={40} />
     //                 <h1>{state.error}</h1>
