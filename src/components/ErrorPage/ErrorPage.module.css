@@ -5,4 +5,9 @@
     border: 2px solid red;
     padding: 2rem;
     border-radius: 10px;
+    gap: 15px;
+}
+
+h1 {
+    text-align: center;
 }

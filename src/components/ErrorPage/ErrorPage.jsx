@@ -3,7 +3,7 @@ import { Container } from '../Container/Container'
 import styles from "./ErrorPage.module.css"
 import { ImWarning, } from 'react-icons/im';
 
-export const ErrorPage = ({ error: errorMessage }) => {
+export const ErrorPage = ({ errorMessage }) => {
     return (
         <>
             <Container>

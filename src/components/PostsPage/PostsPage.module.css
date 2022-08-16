@@ -23,72 +23,9 @@
 .active {
     background-color: white;
     color: black;
-  }
-  
-  .active:hover {
+}
+
+.active:hover {
     background-color: white;
     color: black;
-  }
-
-.superDiv {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    font-size: 50px;
-    color: white;
-    background-color: black;
-    z-index: 2;
-}
-
-.loaderContainer {
-    height: 86vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 17px;
-}
-
-.loader {
-    width: 50px;
-    height: 50px;
-    background-color: cornflowerblue;
-    animation: spin 1s infinite linear;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.buttonsContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-button {
-    background-color: cornflowerblue;
-    border: 0;
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
-
-button:active {
-    background-color: rgba(100, 237, 121, 0.378);
-}
-
-button:disabled {
-    opacity: 0.5;
-    pointer-events: none;
 }

@@ -1,93 +1,155 @@
-import React, { Component } from 'react';
-import { HTTP_STATUS } from '../../constants/constants';
-import styles from './PostsPage.module.css';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
+import React, { useState } from "react";
+import { POSTS_TOTAL_COUNT, POSTS_LIMIT } from "../../constants/constants";
+import { Container } from "../Container/Container";
+import { ItemContainer } from "../ItemContainer/ItemContainer";
+import { Loader } from "../Loader/Loader";
+import styles from "./PostsPage.module.css";
+import { Fetch } from "../Fetch/Fetch";
 import { NavLink } from 'react-router-dom';
-import { Container } from '../Container/Container';
-import { ItemContainer } from '../ItemContainer/ItemContainer';
-import { Loader } from '../Loader/Loader';
+import { NavigationButtons } from "../NavigationButtons/NavigationButtons";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
 
+export const PostsPage = (props) => {
 
-export class PostsPage extends React.Component {
-    constructor(props) {
-        super(props)
+    const PAGES_AMOUNT = POSTS_TOTAL_COUNT / POSTS_LIMIT;
 
-        this.state = {
-            data: null,
-            error: null,
-            status: HTTP_STATUS.IDLE,
-            currentPage: 1,
-        }
+    const [currentPage, setCurrentPage] = useState(1);
 
-        this.limit = this.props.limit;
-
-        this.handleNextButtonClick = this.props.nextClick.bind(this);
-        this.handlePrevButtonClick = this.props.prevClick.bind(this);
-        this.handlerClickErrorCloseButton = this.props.errorClose.bind(this);
-    }
-
-    componentDidMount() {
-        this.setState({
-            status: HTTP_STATUS.PENDING,
-        });
-
-        fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки');
+    return (
+        <Fetch url={`https://jsonplaceholder.typicode.com/posts?_limit=${POSTS_LIMIT}&_page=${currentPage}`}
+            loader={<Loader />} renderError={(errorText) => <ErrorPage errorMessage={errorText} />} >
+            {({ data: posts, status }) => {
+                const navigationProps = {
+                    currentPage,
+                    setCurrentPage,
+                    status,
+                    pagesAmount: PAGES_AMOUNT,
                 }
-                return response.json();
-            })
-            .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
-            .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
-    }
 
-    componentDidUpdate(_, prevState) {
-        if (prevState.currentPage !== this.state.currentPage) {
-            this.setState({
-                data: null,
-                status: HTTP_STATUS.PENDING,
-            });
-            //https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}
-            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка загрузки');
-                    }
-                    return response.json()
-                })
-                .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
-                .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
-        }
-    }
+                return <>
+                    <Container>
+                        {posts.map(post =>
+                            <ItemContainer key={post.id}>
+                                <NavLink to={`/posts/${post.userId}`}
+                                    className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}>
+                                    <h3>{post.title}</h3>
+                                    <p>{post.body}</p>
+                                </NavLink>
+                            </ItemContainer>)}
+                    </Container>
+                    <NavigationButtons settings={navigationProps} />
+                </>
+            }}
 
-    render() {
+        </Fetch>
 
-        return (
-            <div>
-                <Container>
-                    {this.state.data && this.state.data.map((post) =>
-                        <ItemContainer key={post.id}>
-                            <NavLink to={`/posts/${post.userId}`} className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}  >
-                                <h3>{post.title}</h3>
-                                <p>{post.body}</p>
-                            </NavLink>
-                        </ItemContainer>
-                    )}
-
-                    {this.state.status === HTTP_STATUS.PENDING && <Loader />}
-
-                    {this.state.status === HTTP_STATUS.REJECTED && <div>
-                        <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
-                    </div>}
-                </Container>
-
-                <div className={styles.buttonsContainer}>
-                    <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
-                    <button onClick={() => this.handleNextButtonClick(10)} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
-                </div>
-            </div >
-        )
-    }
+    )
 }
+
+{/* <NavLink to={`/posts/${post.userId}`} className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}  > */ }
+//                                 <h3>{post.title}</h3>
+//                                 <p>{post.body}</p>
+//                             </NavLink>
+
+
+
+
+
+
+
+
+
+
+// import React, { Component } from 'react';
+// import { HTTP_STATUS } from '../../constants/constants';
+// import styles from './PostsPage.module.css';
+// import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+// import { ErrorModalWindow } from "../ErrorModalWindow/ErrorModalWindow";
+// import { NavLink } from 'react-router-dom';
+// import { Container } from '../Container/Container';
+// import { ItemContainer } from '../ItemContainer/ItemContainer';
+// import { Loader } from '../Loader/Loader';
+
+
+// export class PostsPage extends React.Component {
+//     constructor(props) {
+//         super(props)
+
+//         this.state = {
+//             data: null,
+//             error: null,
+//             status: HTTP_STATUS.IDLE,
+//             currentPage: 1,
+//         }
+
+//         this.limit = this.props.limit;
+
+//         this.handleNextButtonClick = this.props.nextClick.bind(this);
+//         this.handlePrevButtonClick = this.props.prevClick.bind(this);
+//         this.handlerClickErrorCloseButton = this.props.errorClose.bind(this);
+//     }
+
+//     componentDidMount() {
+//         this.setState({
+//             status: HTTP_STATUS.PENDING,
+//         });
+
+//         fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
+//             .then((response) => {
+//                 if (!response.ok) {
+//                     throw new Error('Ошибка загрузки');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
+//             .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
+//     }
+
+//     componentDidUpdate(_, prevState) {
+//         if (prevState.currentPage !== this.state.currentPage) {
+//             this.setState({
+//                 data: null,
+//                 status: HTTP_STATUS.PENDING,
+//             });
+//             //https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}
+//             fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.state.currentPage}`)
+//                 .then((response) => {
+//                     if (!response.ok) {
+//                         throw new Error('Ошибка загрузки');
+//                     }
+//                     return response.json()
+//                 })
+//                 .then(data => { this.setState({ data, status: HTTP_STATUS.FULFILLED }) })
+//                 .catch(err => this.setState({ error: err.message, status: HTTP_STATUS.REJECTED }));
+//         }
+//     }
+
+//     render() {
+
+//         return (
+//             <div>
+//                 <Container>
+//                     {this.state.data && this.state.data.map((post) =>
+//                         <ItemContainer key={post.id}>
+//                             <NavLink to={`/posts/${post.userId}`} className={(navData) => navData.isActive ? `${styles.active} ${styles.link}` : `${styles.link}`}  >
+//                                 <h3>{post.title}</h3>
+//                                 <p>{post.body}</p>
+//                             </NavLink>
+//                         </ItemContainer>
+//                     )}
+
+//                     {this.state.status === HTTP_STATUS.PENDING && <Loader />}
+
+//                     {this.state.status === HTTP_STATUS.REJECTED && <div>
+//                         <ErrorModalWindow error={this.state.error} onClick={this.handlerClickErrorCloseButton}></ErrorModalWindow>
+//                     </div>}
+//                 </Container>
+
+//                 <div className={styles.buttonsContainer}>
+//                     <button onClick={this.handlePrevButtonClick} disabled={this.state.currentPage === 1 || this.state.status === HTTP_STATUS.PENDING}><FaArrowLeft color="white" /></button>
+//                     <button onClick={() => this.handleNextButtonClick(10)} disabled={this.state.currentPage === 10 || this.state.status === HTTP_STATUS.PENDING}><FaArrowRight color="white" /></button>
+//                 </div>
+//             </div >
+//         )
+//     }
+// }

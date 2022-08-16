@@ -5,6 +5,7 @@ import { ItemContainer } from '../ItemContainer/ItemContainer'
 import { COMMENTS_TOTAL_COUNT, COMMENTS_LIMIT } from "../../constants/constants";
 import { Loader } from '../Loader/Loader';
 import { NavigationButtons } from "../NavigationButtons/NavigationButtons"
+import { ErrorPage } from '../ErrorPage/ErrorPage';
 
 
 export const CommentsPage = () => {
@@ -15,7 +16,7 @@ export const CommentsPage = () => {
 
     return (
         <Fetch url={`https://jsonplaceholder.typicode.com/comments?_limit=${COMMENTS_LIMIT}&_page=${currentPage}`}
-            loader={<Loader />}>
+            loader={<Loader />} renderError={(errorText) => <ErrorPage errorMessage={errorText} />}>
             {({ data: comments, status }) => {
                 const navigationProps = {
                     currentPage,

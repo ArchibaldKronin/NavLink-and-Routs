@@ -16,7 +16,7 @@ export const Fetch = ({ url, loader, children, renderError }) => {
         const loadData = async () => {
             setState({ ...state, status: HTTP_STATUS.PENDING })
             try {
-                throw new Error('error');
+                throw new Error("Super unexpected Error. Literally nobody expected");
                 const { data } = await axios.get(url);
 
                 setState({ ...state, data, status: HTTP_STATUS.FULFILLED });
