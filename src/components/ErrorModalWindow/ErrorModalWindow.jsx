@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 import styles from './ErrorModalWindow.module.css';
 
-// export class ErrorModalWindow extends React.Component {
-//     constructor(props) {
-//         super(props);
-
-//         this.state = {
-
-//         }
-//     }
-
-
-// }
-
 export function ErrorModalWindow(props) {
 
     const error = props.error;
