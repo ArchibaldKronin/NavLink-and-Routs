@@ -16,3 +16,6 @@ export const TODOS_LIMIT = 20;
 
 export const COMMENTS_TOTAL_COUNT = 500;
 export const COMMENTS_LIMIT = 20;
+
+export const ALBUMS_TOTAL_COUNT = 100;
+export const ALBUMS_LIMIT = 5;
