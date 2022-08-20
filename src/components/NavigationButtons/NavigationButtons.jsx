@@ -20,7 +20,6 @@ export const NavigationButtons = ({ settings }) => {
 
         setCurrentPage(currentPage - 1);
     }
-    // debugger
 
     return (
         <div className={styles.buttonsContainer}>

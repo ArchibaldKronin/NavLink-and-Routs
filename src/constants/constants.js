@@ -19,3 +19,6 @@ export const COMMENTS_LIMIT = 20;
 
 export const ALBUMS_TOTAL_COUNT = 100;
 export const ALBUMS_LIMIT = 5;
+
+export const PHOTOS_TOTAL_COUNT = 5000;
+export const PHOTOS_LIMIT = 1000;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { HTTP_STATUS } from '../../constants/constants';
-import { Container } from '../Container/Container';
 import { ErrorPage } from '../ErrorPage/ErrorPage';
 import { ItemContainer } from '../ItemContainer/ItemContainer';
 import { Loader } from '../Loader/Loader';
